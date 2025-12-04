@@ -1,0 +1,35 @@
+{
+  "name": "tft-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "list:displays": "ts-node src/listDisplays.ts",
+    "test:crop": "ts-node src/testCrop.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/falqlp/tft-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/falqlp/tft-bot/issues"
+  },
+  "homepage": "https://github.com/falqlp/tft-bot#readme",
+  "dependencies": {
+    "screenshot-desktop": "^1.15.3",
+    "sharp": "^0.34.5",
+    "tesseract.js": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/screenshot-desktop": "^1.15.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
