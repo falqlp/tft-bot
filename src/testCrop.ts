@@ -8,12 +8,7 @@ import {readSlotWithCache} from "./ocr";
 async function listDisplays() {
     let buffer: Buffer = await screenshot({ screen: TFT_SCREEN_ID });
     buffer = await sharp(buffer)
-        .extract({
-            left: 0,
-            top: 0,
-            width: 1000,
-            height: 1000,
-        })
+        .extract({ left: 950, top: 880, width: 50, height: 30 })
         .grayscale()
         .normalize()
         .png()
