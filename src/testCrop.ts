@@ -4,11 +4,18 @@ import fs from "node:fs";
 import {TFT_SCREEN_ID} from "./screenReader";
 import sharp = require("sharp");
 import {readSlotWithCache} from "./ocr";
+import {listDisplays} from "./listDisplays";
 
-async function listDisplays() {
+async function testCrop() {
+    const screen = await listDisplays();
     let buffer: Buffer = await screenshot({ screen: TFT_SCREEN_ID });
     buffer = await sharp(buffer)
-        .extract({ left: 950, top: 880, width: 50, height: 30 })
+        .extract({
+            left: Math.floor(screen.width * 0.40),
+            top: Math.floor(screen.height * 0.01),
+            width: Math.floor(screen.width * 0.022),
+            height: Math.floor(screen.height * 0.028),
+        })
         .grayscale()
         .normalize()
         .png()
@@ -17,7 +24,7 @@ async function listDisplays() {
     fs.mkdirSync(debugDir, { recursive: true });
     const filePath = path.join(debugDir, "test.png");
     await fs.promises.writeFile(filePath, buffer);
-    console.log('texte détecté: ',await readSlotWithCache("test", buffer));
+    console.log('texte détecté:',await readSlotWithCache("test", buffer));
 }
 
-listDisplays().catch(console.error);
+testCrop().catch(console.error);

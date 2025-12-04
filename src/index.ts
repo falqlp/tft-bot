@@ -1,13 +1,18 @@
 import {TFT_REGIONS} from "./regions";
-import {captureFullScreen, cropFromFull} from "./screenReader";
+import {captureFullScreen, cropFromFull, ScreenOptions} from "./screenReader";
 import {readSlotWithCache} from "./ocr";
+import {listDisplays} from "./listDisplays";
 
-async function readShopOnce() {
+async function readShopOnce(screen: ScreenOptions) {
     console.time("readShopOnce");
     const entries = Object.entries(TFT_REGIONS.shop);
+    entries.push(["gold", TFT_REGIONS.gold]);
+    entries.push(["xp", TFT_REGIONS.xp]);
+    entries.push(["lvl", TFT_REGIONS.lvl]);
+    entries.push(["round", TFT_REGIONS.round]);
     const full = await captureFullScreen();
     const cropPromises = entries.map(([slotName, region]) =>
-        cropFromFull(region, full)
+        cropFromFull(region, full, screen)
             .then(buffer => [slotName, buffer] as const)
     );
     const cropped = await Promise.all(cropPromises);
@@ -27,8 +32,9 @@ async function readShopOnce() {
 }
 
 async function main() {
+    const screen = await listDisplays();
     setInterval(() => {
-        void readShopOnce();
+        void readShopOnce(screen);
     }, 1000);
 }
 
