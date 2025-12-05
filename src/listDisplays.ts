@@ -1,5 +1,5 @@
 import screenshot from "screenshot-desktop";
-import {ScreenOptions, TFT_SCREEN_ID} from "./screenReader";
+import {ScreenOptions, TFT_SCREEN_ID} from "./utils/screenReaderUtils";
 
 export async function listDisplays() {
     const displays = await screenshot.listDisplays();

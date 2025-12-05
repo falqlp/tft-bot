@@ -1,9 +1,11 @@
 import {TFT_REGIONS} from "./regions";
-import {captureFullScreen, cropFromFull, ScreenOptions} from "./screenReader";
+import {captureFullScreen, cropFromFull, ScreenOptions} from "./utils/screenReaderUtils";
 import {readSlotWithCache} from "./ocr";
 import {listDisplays} from "./listDisplays";
+import {ScreenParameters} from "./ScreenParameters";
+import {ForceYordleAlgorithm} from "./algo/yordle/ForceYordleAlgorithm";
 
-async function readShopOnce(screen: ScreenOptions) {
+async function readShopOnce() {
     console.time("readShopOnce");
     const entries = Object.entries(TFT_REGIONS.shop);
     entries.push(["gold", TFT_REGIONS.gold]);
@@ -12,7 +14,7 @@ async function readShopOnce(screen: ScreenOptions) {
     entries.push(["round", TFT_REGIONS.round]);
     const full = await captureFullScreen();
     const cropPromises = entries.map(([slotName, region]) =>
-        cropFromFull(region, full, screen)
+        cropFromFull(region, full)
             .then(buffer => [slotName, buffer] as const)
     );
     const cropped = await Promise.all(cropPromises);
@@ -29,12 +31,13 @@ async function readShopOnce(screen: ScreenOptions) {
     console.timeEnd("readShopOnce");
     console.log(new Date().toISOString());
     console.table(results);
+    new ForceYordleAlgorithm().executeStep(results);
 }
 
 async function main() {
-    const screen = await listDisplays();
+    ScreenParameters.SCREEN_PARAMETERS = await listDisplays();
     setInterval(() => {
-        void readShopOnce(screen);
+        void readShopOnce();
     }, 1000);
 }
 

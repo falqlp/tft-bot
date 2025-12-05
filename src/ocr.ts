@@ -1,5 +1,4 @@
 import {createWorker, PSM, type Worker} from "tesseract.js";
-import {ScreenRegion} from "./regions";
 import crypto from "node:crypto";
 
 let workerPromise: Promise<Worker> | null = null;

@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "list:displays": "ts-node src/listDisplays.ts",
-    "test:crop": "ts-node src/testCrop.ts"
+    "test:crop": "ts-node src/test/testCrop.ts",
+    "test:click": "ts-node src/test/testClick.ts"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/falqlp/tft-bot#readme",
   "dependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.6",
     "screenshot-desktop": "^1.15.3",
     "sharp": "^0.34.5",
     "tesseract.js": "^6.0.1"

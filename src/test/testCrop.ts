@@ -1,10 +1,10 @@
 import screenshot from "screenshot-desktop";
 import path from "node:path";
 import fs from "node:fs";
-import {TFT_SCREEN_ID} from "./screenReader";
+import {TFT_SCREEN_ID} from "../utils/screenReaderUtils";
 import sharp = require("sharp");
-import {readSlotWithCache} from "./ocr";
-import {listDisplays} from "./listDisplays";
+import {readSlotWithCache} from "../ocr";
+import {listDisplays} from "../listDisplays";
 
 async function testCrop() {
     const screen = await listDisplays();
